@@ -1,4 +1,5 @@
-import { auth, firestore } from '../lib/firebase';
+import { auth } from '../lib/firebase';
+import { doc, onSnapshot, getFirestore } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 
@@ -12,9 +13,9 @@ export function useUserData() {
     let unsubscribe;
 
     if (user) {
-      const ref = firestore.collection('users').doc(user.uid);
-      unsubscribe = ref.onSnapshot((doc) => {
-        setUsername(doc.data()?.username);
+        const ref = doc(getFirestore(), 'users', user.uid);
+        unsubscribe = onSnapshot(ref, (doc) => {
+          setUsername(doc.data()?.username);
       });
     } else {
       setUsername(null);
