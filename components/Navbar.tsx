@@ -13,6 +13,7 @@ export default function Navbar(){
     const signOutNow = () => {
       signOut(auth);
       router.reload();
+      window.location.href='/';
     }
 
     return (
@@ -26,9 +27,7 @@ export default function Navbar(){
             {username && (
                 <>
                     <li>
-                        <Link href="/">
-                            <button onClick={signOutNow}>Sign Out</button>
-                        </Link>
+                        <button onClick={signOutNow}>Sign Out</button>
                     </li>
                     <li>
                         <Link href="/admin">
