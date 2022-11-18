@@ -5,7 +5,6 @@ import { UserContext } from "../lib/context";
 import { doc, getDoc, getFirestore, writeBatch } from "firebase/firestore";
 import debounce from "lodash.debounce";
 import { TextField } from "@mui/material";
-import toast from "react-hot-toast";
 
 
 export default function EnterPage({ }){
@@ -28,7 +27,6 @@ function SignInButton(){
             await signInWithPopup(auth, googleAuthProvider);
         } catch (err) {
             console.error(err);
-            toast.error('Connection failed');
         }
     };
 

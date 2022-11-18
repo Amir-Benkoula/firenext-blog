@@ -1,8 +1,9 @@
-import { initializeApp, getApps, getApp } from "firebase/app";
+import firebase from 'firebase/app';
+import { Timestamp } from 'firebase/firestore';
+import { initializeApp, getApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
-import { getFirestore, doc, collection, getDoc, collectionGroup, getDocs, query, where, DocumentData, limit, QuerySnapshot, QueryDocumentSnapshot} from "firebase/firestore";
+import { getFirestore, collection, getDocs, query, where, DocumentData, limit, QueryDocumentSnapshot} from "firebase/firestore";
 import { getStorage } from "firebase/storage";
-
 
 const firebaseConfig = {
     apiKey: "AIzaSyAKRXuc7vnQ3uPzYyEXTk0ljRUdDOMsP1U",
@@ -31,6 +32,8 @@ export const googleAuthProvider = new GoogleAuthProvider();
 
 // Firestore exports
 export const firestore = getFirestore(firebaseApp);
+export const fromMillis = Timestamp.fromMillis;
+export const toMillis = Timestamp.prototype.toMillis;
 
 // Storage exports
 export const storage = getStorage(firebaseApp);
@@ -43,24 +46,22 @@ export const STATE_CHANGED = 'state_changed';
  * @param  {string} username
  */
  export async function getUserWithUsername(username: string) {
-  const userDoc: Array<DocumentData> = [];
   const usersRefQuery = query(collection(firestore, "users"), where("username", "==", username), limit(1));
-  const userDocSnapshot = await getDocs(usersRefQuery);
-  userDocSnapshot.forEach((doc) => {
-    userDoc.push(doc.data());
-  })
+  const userDoc = (await getDocs(usersRefQuery)).docs[0];
 
-  return userDoc[0];
+  return userDoc;
 }
 
 /**`
  * Converts a firestore document to JSON
- * @param  {DocumentData} doc
+ * @param  {QueryDocumentSnapshot<DocumentData>} doc
  */
  export function postToJSON(doc: DocumentData) {
+  const docData = doc.data();
   return {
-    ...doc,
-    createdAt: doc.createdAt.toMillis(),
-    updatedAt: doc.updatedAt.toMillis(),
+    ...docData,
+    createdAt: docData.createdAt.toMillis(),
+    updatedAt: docData.updatedAt.toMillis(),
   };
 }
+

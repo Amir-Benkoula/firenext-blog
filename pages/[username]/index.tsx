@@ -1,8 +1,10 @@
 import { getAuth } from "firebase/auth";
+import { query as fQuery, limit, orderBy, where, getDocs, doc, collection } from "firebase/firestore";
 import PostFeed from "../../components/PostFeed";
 import UserProfile from "../../components/UserProfile";
 import { getUserWithUsername, postToJSON } from "../../lib/firebase";
 
+// Server Side Rendering function to show user's data and posts
 export async function getServerSideProps({ query }: any) {
   const { username } = query;
 
@@ -13,13 +15,10 @@ export async function getServerSideProps({ query }: any) {
   let posts = null;
 
   if (userDoc) {
-    user = userDoc;
-    const postsQuery = userDoc.ref
-      .collection('posts')
-      .where('published', '==', true)
-      .orderBy('createdAt', 'desc')
-      .limit(5);
-    posts = (await postsQuery.get()).docs.map(postToJSON);
+    user = userDoc.data();
+    const postsQuery = fQuery(collection(userDoc.ref, "posts"), where('published', '==', true), orderBy("createdAt", "desc"), limit(5));
+  
+    posts = (await getDocs(postsQuery)).docs.map(postToJSON);
   }
 
   return {
