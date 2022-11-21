@@ -27,11 +27,11 @@ export default function Navbar(){
             {username && (
                 <>
                     <li>
-                        <button onClick={signOutNow}>Sign Out</button>
+                        <button onClick={signOutNow}>Déconnexion</button>
                     </li>
                     <li>
                         <Link href="/admin">
-                            <button>Write Posts</button>
+                            <button>Créer Article</button>
                         </Link>
                     </li>
                     <li>
@@ -46,7 +46,7 @@ export default function Navbar(){
                 <>
                     <li>
                         <Link href="/enter">
-                            <button>Log In</button>
+                            <button>Connexion</button>
                         </Link>
                     </li>
                 </>

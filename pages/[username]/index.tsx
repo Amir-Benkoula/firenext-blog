@@ -10,6 +10,12 @@ export async function getServerSideProps({ query }: any) {
 
   const userDoc = await getUserWithUsername(username);
 
+  if (!userDoc) {
+    return {
+      notFound: true,
+    };
+  }
+  
   // JSON serializable data
   let user = null;
   let posts = null;

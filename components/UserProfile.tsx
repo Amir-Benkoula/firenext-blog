@@ -7,7 +7,7 @@ export default function UserProfile({ user }: any){
             <p>
                 <i>@{user.username}</i>
             </p>
-            <h1>{user.displayName || 'Anonymous User'}</h1>
+            <h1>{user.displayName || 'Utilisateur Anonyme'}</h1>
         </div>
     );
 }

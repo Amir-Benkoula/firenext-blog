@@ -46,20 +46,13 @@ export default function Home(props: any) {
 
   return (
     <main>
-
-      <div className="card card-info">
-        <h2>💡 Next.js + Firebase - The Full Course</h2>
-        <p>Welcome! This app is built with Next.js and Firebase and is loosely inspired by Dev.to.</p>
-        <p>Sign up for an 👨‍🎤 account, ✍️ write posts, then 💞 heart content created by other users. All public content is server-rendered and search-engine optimized.</p>
-      </div>
-     
       <PostFeed posts={posts} />
 
-      {!loading && !postsEnd && <button onClick={getMorePosts}>Load more</button>}
+      {!loading && !postsEnd && <button onClick={getMorePosts}>Plus d{"'"}articles</button>}
 
       <Loader show={loading} />
 
-      {postsEnd && 'You have reached the end!'}
+      {postsEnd && "Il n'y a plus d'article !"}
     </main>
   )
 }
