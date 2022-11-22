@@ -1,8 +1,7 @@
-import firebase from 'firebase/app';
 import { Timestamp } from 'firebase/firestore';
 import { initializeApp, getApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
-import { getFirestore, collection, getDocs, query, where, DocumentData, limit, QueryDocumentSnapshot} from "firebase/firestore";
+import { getFirestore, collection, getDocs, query, where, DocumentData, limit} from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {

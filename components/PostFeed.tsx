@@ -34,7 +34,7 @@ function PostItem({ post, admin = false }: any) {
         <>
           <Link href={`/admin/${post.slug}`}>
             <h3>
-              <button className="btn-blue">Editer</button>
+              <button>Editer</button>
             </h3>
           </Link>
 

@@ -27,12 +27,12 @@ export default function Navbar(){
             {username && (
                 <>
                     <li>
-                        <button onClick={signOutNow}>Déconnexion</button>
+                        <Link href="/admin">
+                            <button>Articles</button>
+                        </Link>
                     </li>
                     <li>
-                        <Link href="/admin">
-                            <button>Créer Article</button>
-                        </Link>
+                        <button onClick={signOutNow}>Déconnexion</button>
                     </li>
                     <li>
                         <Link href={`/${username}`}>

@@ -1,5 +1,5 @@
 import { getUserWithUsername } from "../../lib/firebase";
-import { doc, collection, getDoc, query, collectionGroup, getFirestore, limit, getDocs, DocumentData, DocumentReference} from "firebase/firestore";
+import { doc, collection, getDoc, query, collectionGroup, getFirestore, limit, getDocs} from "firebase/firestore";
 import PostContent from "../../components/PostContent";
 import { useContext } from "react";
 import { UserContext } from "../../lib/context";
@@ -99,7 +99,7 @@ export default function Post(props : any) {
 
         {currentUser?.uid === post.uid && (
           <Link href={`/admin/${post.slug}`}>
-            <button>Edit Post</button>
+            <button>Editer</button>
           </Link>
         )}
       </aside>

@@ -32,13 +32,13 @@ function SignInButton(){
 
     return (
         <button className="btn-google" onClick={signInWithGoogle}>
-          <img src={'/google.png'} alt="" /> Sign in with Google
+          <img src={'/google.png'} alt="" /> Se connecter avec Google
         </button>
     );
 }
 
 function SignOutButton(){
-    return <button onClick={() => auth.signOut()}>Sign Out</button>;
+    return <button onClick={() => auth.signOut()}>Déconnexion</button>;
 }
 
 function UsernameForm(){
@@ -110,7 +110,7 @@ function UsernameForm(){
             <h2>Choose Username</h2>
             <form onSubmit={onSubmit}>
                 <TextField id="outlined-basic" variant="outlined" name="username" value={formValue} onChange={onChange}/>
-                <button type="submit" disabled={!isValid}>Sign Up</button>
+                <button type="submit" disabled={!isValid}>S{"'"}inscrire</button>
                 <UsernameMessage username={formValue} isValid={isValid} loading={loading} />
 
                 {/* <h3>Debug State</h3>
@@ -130,11 +130,11 @@ function UsernameForm(){
     
 function UsernameMessage({ username, isValid, loading }: any) {
     if (loading) {
-    return <p>Checking...</p>;  
+    return <p>Vérification...</p>;  
     } else if (isValid) {
-    return <p className="text-success">{username} is available!</p>;
+    return <p className="text-success">{username} est disponible!</p>;
     } else if (username && !isValid) {
-    return <p className="text-danger">That username is taken!</p>;
+    return <p className="text-danger">Ce nom est déjà utilisé!</p>;
     } else {
     return <p></p>;
     }

@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { collectionGroup, getDocs, limit, orderBy, query, startAfter, where } from 'firebase/firestore';
 
 // Max post to query per page
-const LIMIT = 1;
+const LIMIT = 5;
 
 export async function getServerSideProps(context: any) {
   const postsQuery = query(collectionGroup(firestore, "posts"), where("published", "==", true), orderBy("createdAt", "desc"), limit(LIMIT));
@@ -46,13 +46,13 @@ export default function Home(props: any) {
 
   return (
     <main>
-      <PostFeed posts={posts} />
+      <PostFeed posts={posts}/>
 
-      {!loading && !postsEnd && <button onClick={getMorePosts}>Plus d{"'"}articles</button>}
+      {posts.length ? !loading && !postsEnd && <button onClick={getMorePosts}>Plus d{"'"}articles</button>: <div>{"Il n'y a pas d'article pour le moment !"}</div>}
 
-      <Loader show={loading} />
+      <Loader show={loading} /> 
 
-      {postsEnd && "Il n'y a plus d'article !"}
+      {postsEnd && "Il n'y a plus d'articles !"}
     </main>
   )
 }
