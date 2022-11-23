@@ -8,6 +8,9 @@
 # testing
 /coverage
 
+#firestore
+/firestore
+
 # next.js
 /.next/
 /out/
