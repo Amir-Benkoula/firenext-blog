@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { auth, storage, STATE_CHANGED } from '../lib/firebase';
+import { auth, storage } from '../lib/firebase';
 import Loader from './Loader';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 
@@ -8,23 +8,24 @@ export default function ImageUploader() {
   const [uploading, setUploading] = useState(false);
   const [progress, setProgress] = useState(0);
   const [downloadURL, setDownloadURL] = useState(null);
-  let fileToBlob: Blob;
 
   // Creates a Firebase Upload Task
   const uploadFile = async (e: React.FormEvent<HTMLInputElement>) => {
     // Get the file
     const file = e.currentTarget.files?.item(0);
-    const extension = file?.name.split('.')[0];
+    const extension = file?.name.split('.').pop();
     // Makes reference to the storage bucket location
     const fileRef = ref(storage, `uploads/${auth.currentUser?.uid}/${Date.now()}.${extension}`);
     setUploading(true);
 
-    // Converts the file to Blob Object
-    file?.arrayBuffer().then((arrayBuffer) => {
-      fileToBlob = new Blob([new Uint8Array(arrayBuffer)], {type: file.type });
-    })
     // Starts the upload
-    const task = uploadBytesResumable(fileRef, fileToBlob)
+    //@ts-ignore
+    const task = uploadBytesResumable(fileRef, file);
+
+    task.on("state_changed", (snapshot) => {
+      const pct = +((snapshot.bytesTransferred / snapshot.totalBytes) * 100).toFixed(0);
+      setProgress(pct);
+    });
 
     // Get downloadURL AFTER task resolves (Note: this is not a native Promise)
     task

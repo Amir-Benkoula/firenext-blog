@@ -6,6 +6,8 @@ import { UserContext } from "../../lib/context";
 import Link from "next/link";
 
 import { useDocumentData } from 'react-firebase-hooks/firestore';
+import AuthCheck from "../../components/AuthCheck";
+import LikeButton from "../../components/LikeButton";
 
 // Incremental Static Regeneration function to show user's data and posts
 export async function getStaticProps({ params }: any) {
@@ -97,6 +99,16 @@ export default function Post(props : any) {
           <strong>{post.heartCount || 0} 🤍</strong>
         </p>
 
+        <AuthCheck
+          fallback={
+            <Link href="/enter">
+              <button>💗 Connexion</button>
+            </Link>
+          }
+        >
+          <LikeButton postRef={postRef} />
+        </AuthCheck>
+        
         {currentUser?.uid === post.uid && (
           <Link href={`/admin/${post.slug}`}>
             <button>Editer</button>

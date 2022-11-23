@@ -36,7 +36,6 @@ export const toMillis = Timestamp.prototype.toMillis;
 
 // Storage exports
 export const storage = getStorage(firebaseApp);
-export const STATE_CHANGED = 'state_changed';
 
 // /// Helper functions
 

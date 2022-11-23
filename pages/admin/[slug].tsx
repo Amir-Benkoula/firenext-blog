@@ -87,10 +87,11 @@ function PostForm({ defaultValues, postRef, preview }: any) {
           minLength: { value: 10, message: "Le contenu de l'article est trop court" }, 
           maxLength: { value: 20000, message: "Le contenu de l'article est trop long" }
         })}></textarea>
-        <fieldset>
+        
+        <div>
           <input {...register('published')} type="checkbox" />
           <label>Publier</label>
-        </fieldset>
+        </div>
 
         {formState.errors.content && <p className="text-danger">{errorMessage}</p>}
 
