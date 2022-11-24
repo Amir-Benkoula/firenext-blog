@@ -37,10 +37,8 @@ export default function AppNavbar() {
   return (
     <nav className="navbar">
       <ul>
-        <li className="logo" >
-            <Link href="/">
-                Feed
-            </Link>
+        <li className="logo">
+          <Link href="/">Feed</Link>
         </li>
         {username && (
           <>
