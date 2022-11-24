@@ -3,8 +3,7 @@ body {
   background-color: whitesmoke;
   padding: 0;
   margin: 0;
-  font-family: 'Noto Sans', sans-serif;
-  color: var(--color-text);
+  font-family: "Noto Sans", sans-serif;
   margin-top: 50px;
 }
 
@@ -26,8 +25,14 @@ a {
 
 /* Username Form */
 
-.usernameForm{
-text-align: center;
+.usernameForm {
+  text-align: center;
+}
+
+.box-center {
+  display: flex;
+  padding: 1em;
+  border: solid 1px black;
 }
 
 /* Loader */
@@ -49,7 +54,7 @@ text-align: center;
   100% {
     transform: rotate(360deg);
   }
-} 
+}
 
 /* Navbar */
 
@@ -57,34 +62,27 @@ text-align: center;
   height: 70px;
   width: 100%;
   background: white;
-  color: var(--colors-text);
   position: fixed;
   top: 0;
-  padding: 0 10vw;
+  padding: 0 6vw;
   font-weight: bold;
-  border-bottom: 1px solid grey;
   z-index: 99;
 }
 
 .navbar ul {
+  position: relative;
   list-style-type: none;
   margin: 0;
   padding: 0;
   display: flex;
   align-items: center;
-  justify-content: space-between;
   height: 100%;
+  justify-content: right;
 }
 
-.navbar img {
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  cursor: pointer;
-}
-
-.navbar li {
-  border-radius: 50%;
+.logo{
+  position: absolute;
+  left: 0%;
 }
 
 /* Cards */
@@ -102,29 +100,27 @@ text-align: center;
 }
 
 .card-img-center {
-  width:20%;
-  display:block;
-  margin:auto;
+  width: 20%;
+  display: block;
+  margin: auto;
   border-radius: 50%;
   max-width: 150px;
 }
+
+
 /* Buttons */
 
-.btn, button {
-  background-color: var(--color-gray);
-  border: none;
-  color: var(--color-text);
-  padding: 1rem 2rem;
+.articles-button {
+  background-color: white;
+  border: solid 2px black;
+  padding: 7px 15px;
   display: flex;
+  font-size: large;
   align-items: center;
   text-align: center;
   justify-content: center;
-  text-decoration: none;
-  font-family: 'Noto Sans', sans-serif;
-  font-weight: bold;
   border-radius: 0.25rem;
   cursor: pointer;
-  margin: 0.5rem 1rem 0.5rem 0;
 }
 
 @media only screen and (max-width: 768px) {
@@ -135,45 +131,7 @@ text-align: center;
 }
 
 
-button:hover {
-  filter: brightness(90%);
-}
-
-button:disabled,
-button[disabled]{
-  filter: brightness(80%);
-  cursor: not-allowed;
-}
-
-button.btn-blue {
-  background-color: var(--color-blue);
+.articles-button:hover {
   color: white;
-}
-
-button.btn-red {
-  background-color: var(--color-red);
-  color: white;
-}
-
-button.btn-green {
-  background-color: var(--color-green);
-  color: white;
-}
-
-button.btn-google {
-  background-color: white;
-  color: var(--color-text);
-}
-
-.btn-google img {
-  width: 30px;
-  margin-right: 10px;
-}
-
-button.btn-logo {
-  background-color: var(--color-text);
-  color: white;
-  text-transform: uppercase;
-  font-size: 1.5rem;
-  padding: 0.5rem 1rem;
+  background-color: black;
 }

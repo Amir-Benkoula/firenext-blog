@@ -1,11 +1,20 @@
 import { getUserWithUsername } from "../../lib/firebase";
-import { doc, collection, getDoc, query, collectionGroup, getFirestore, limit, getDocs} from "firebase/firestore";
+import {
+  doc,
+  collection,
+  getDoc,
+  query,
+  collectionGroup,
+  getFirestore,
+  limit,
+  getDocs,
+} from "firebase/firestore";
 import PostContent from "../../components/PostContent";
 import { useContext } from "react";
 import { UserContext } from "../../lib/context";
 import Link from "next/link";
 
-import { useDocumentData } from 'react-firebase-hooks/firestore';
+import { useDocumentData } from "react-firebase-hooks/firestore";
 import AuthCheck from "../../components/AuthCheck";
 import LikeButton from "../../components/LikeButton";
 
@@ -27,7 +36,7 @@ export async function getStaticProps({ params }: any) {
       updatedAt: postData?.updatedAt.toMillis(),
     };
 
-    path = doc(postsCollection, slug).path;;
+    path = doc(postsCollection, slug).path;
   }
 
   return {
@@ -37,13 +46,10 @@ export async function getStaticProps({ params }: any) {
 }
 
 export async function getStaticPaths() {
-  const q = query(
-    collectionGroup(getFirestore(), 'posts'),
-    limit(20)
-  )
+  const q = query(collectionGroup(getFirestore(), "posts"), limit(20));
 
   const snapshot = await getDocs(q);
-  
+
   const paths = snapshot.docs.map((doc) => {
     const { slug, username } = doc.data();
     return {
@@ -57,10 +63,9 @@ export async function getStaticPaths() {
     //   { params: { username, slug }}
     // ],
     paths,
-    fallback: 'blocking',
+    fallback: "blocking",
   };
 }
-
 
 // export async function getServerSideProps({ query }: any) {
 //   const { username, slug } = query;
@@ -73,14 +78,14 @@ export async function getStaticPaths() {
 
 //   if (userDoc) {
 
-//   } 
+//   }
 
 //   return {
 //     props: { postjson }, // will be passed to the page component as props
 //   };
 // }
 
-export default function Post(props : any) {
+export default function Post(props: any) {
   const postRef = doc(getFirestore(), props.path);
   const [realtimePost] = useDocumentData(postRef);
 
@@ -89,7 +94,7 @@ export default function Post(props : any) {
   const { user: currentUser } = useContext(UserContext);
 
   return (
-    <main>      
+    <main>
       <section>
         <PostContent post={post} />
       </section>
@@ -108,7 +113,7 @@ export default function Post(props : any) {
         >
           <LikeButton postRef={postRef} />
         </AuthCheck>
-        
+
         {currentUser?.uid === post.uid && (
           <Link href={`/admin/${post.slug}`}>
             <button>Editer</button>

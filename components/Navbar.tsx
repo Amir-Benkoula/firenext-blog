@@ -1,57 +1,139 @@
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { useContext } from 'react';
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { SetStateAction, useContext, useState } from "react";
 import { UserContext } from "../lib/context";
-import { signOut } from 'firebase/auth';
-import { auth } from '../lib/firebase';
+import { signOut } from "firebase/auth";
+import { auth } from "../lib/firebase";
+import {
+  Avatar,
+  Button,
+  IconButton,
+  ListItemIcon,
+  Menu,
+  MenuItem,
+  Tooltip,
+} from "@mui/material";
+import { Logout } from "@mui/icons-material";
 
-export default function Navbar(){
-    const {user, username} = useContext(UserContext);
+export default function AppNavbar() {
+  const { user, username } = useContext(UserContext);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: any) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
-    const router = useRouter();
+  const router = useRouter();
 
-    const signOutNow = () => {
-      signOut(auth);
-      router.reload();
-      window.location.href='/';
-    }
+  const signOutNow = () => {
+    signOut(auth);
+    router.reload();
+    window.location.href = "/";
+  };
 
-    return (
-        <nav className="navbar">
-            <ul>
-                <li>
-                    <Link href="/">
-                        <button>Feed</button>
-                    </Link>
-                </li>
-            {username && (
-                <>
-                    <li>
-                        <Link href="/admin">
-                            <button>Articles</button>
-                        </Link>
-                    </li>
-                    <li>
-                        <button onClick={signOutNow}>Déconnexion</button>
-                    </li>
-                    <li>
-                        <Link href={`/${username}`}>
-                            <img src={user?.photoURL || '/google.png'} alt="profile pic" />
-                        </Link>
-                    </li>
-                </>
-            )}
-
-            {!username && (
-                <>
-                    <li>
-                        <Link href="/enter">
-                            <button>Connexion</button>
-                        </Link>
-                    </li>
-                </>
-            )}
-            </ul>
-        </nav>
-    );
+  return (
+    <nav className="navbar">
+      <ul>
+        <li className="logo" >
+            <Link href="/">
+                Feed
+            </Link>
+        </li>
+        {username && (
+          <>
+            <li>
+              <Link href="/chat">
+                <button className="articles-button">Chat</button>
+              </Link>
+            </li>
+            <li>
+              <Link href="/admin">
+                <button className="articles-button">Articles</button>
+              </Link>
+            </li>
+            <li>
+              <Tooltip title="Account settings">
+                <IconButton
+                  onClick={handleClick}
+                  size="small"
+                  sx={{ ml: 2 }}
+                  aria-controls={open ? "account-menu" : undefined}
+                  aria-haspopup="true"
+                  aria-expanded={open ? "true" : undefined}
+                >
+                  <Avatar
+                    alt="Profile Pic"
+                    src={user?.photoURL || "/google.png"}
+                  />
+                </IconButton>
+              </Tooltip>
+              <Menu
+                anchorEl={anchorEl}
+                id="account-menu"
+                open={open}
+                onClose={handleClose}
+                onClick={handleClose}
+                PaperProps={{
+                  elevation: 0,
+                  sx: {
+                    overflow: "visible",
+                    filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+                    mt: 1.5,
+                    "& .MuiAvatar-root": {
+                      width: 32,
+                      height: 32,
+                      ml: -0.5,
+                      mr: 1,
+                    },
+                    "&:before": {
+                      content: '""',
+                      display: "block",
+                      position: "absolute",
+                      top: 0,
+                      right: 14,
+                      width: 10,
+                      height: 10,
+                      bgcolor: "background.paper",
+                      transform: "translateY(-50%) rotate(45deg)",
+                      zIndex: 0,
+                    },
+                  },
+                }}
+                transformOrigin={{ horizontal: "right", vertical: "top" }}
+                anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+              >
+                <Link href={`/${username}`}>
+                  <MenuItem>
+                    <Avatar
+                      alt="Profile Pic"
+                      src={user?.photoURL || "/google.png"}
+                    />
+                    Profile
+                  </MenuItem>
+                </Link>
+                <MenuItem>
+                  <ListItemIcon>
+                    <Logout fontSize="small" />
+                  </ListItemIcon>
+                  <Link href="/" onClick={signOutNow}>
+                    Deconnexion
+                  </Link>
+                </MenuItem>
+              </Menu>
+            </li>
+          </>
+        )}
+        {!username && (
+          <>
+            <li>
+              <Link href="/enter">Connexion</Link>
+            </li>
+          </>
+        )}
+      </ul>
+    </nav>
+  );
 }

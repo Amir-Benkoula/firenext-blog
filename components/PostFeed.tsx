@@ -1,7 +1,11 @@
-import Link from 'next/link';
+import Link from "next/link";
 
 export default function PostFeed({ posts, admin }: any) {
-  return posts ? posts.map((post: any) => <PostItem post={post} key={post.slug} admin={admin} />) : null;
+  return posts
+    ? posts.map((post: any) => (
+        <PostItem post={post} key={post.slug} admin={admin} />
+      ))
+    : null;
 }
 
 function PostItem({ post, admin = false }: any) {
@@ -12,13 +16,11 @@ function PostItem({ post, admin = false }: any) {
   return (
     <div className="card">
       <Link href={`/${post.username}`}>
-          <strong>De @{post.username}</strong>
+        <strong>De @{post.username}</strong>
       </Link>
 
       <Link href={`/${post.username}/${post.slug}`}>
-        <h2>
-          {post.title}
-        </h2>
+        <h2>{post.title}</h2>
       </Link>
 
       <footer>
@@ -38,7 +40,11 @@ function PostItem({ post, admin = false }: any) {
             </h3>
           </Link>
 
-          {post.published ? <p className="text-success">Publié</p> : <p className="text-danger">Non publié</p>}
+          {post.published ? (
+            <p className="text-success">Publié</p>
+          ) : (
+            <p className="text-danger">Non publié</p>
+          )}
         </>
       )}
     </div>

@@ -1,9 +1,9 @@
-import Head from 'next/head';
+import Head from "next/head";
 
 export default function Metatags({
-  title = 'Blog Amir Benkoula',
-  description = 'Un blog créé avec Next Js et Firebase',
-  image = 'https://i.redd.it/l4esol1dbwby.png',
+  title = "Blog Amir Benkoula",
+  description = "Un blog créé avec Next Js et Firebase",
+  image = "https://i.redd.it/l4esol1dbwby.png",
 }) {
   return (
     <Head>

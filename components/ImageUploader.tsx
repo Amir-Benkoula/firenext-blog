@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import { auth, storage } from '../lib/firebase';
-import Loader from './Loader';
-import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+import { useState } from "react";
+import { auth, storage } from "../lib/firebase";
+import Loader from "./Loader";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
 // Uploads images to Firebase Storage
 export default function ImageUploader() {
@@ -13,9 +13,12 @@ export default function ImageUploader() {
   const uploadFile = async (e: React.FormEvent<HTMLInputElement>) => {
     // Get the file
     const file = e.currentTarget.files?.item(0);
-    const extension = file?.name.split('.').pop();
+    const extension = file?.name.split(".").pop();
     // Makes reference to the storage bucket location
-    const fileRef = ref(storage, `uploads/${auth.currentUser?.uid}/${Date.now()}.${extension}`);
+    const fileRef = ref(
+      storage,
+      `uploads/${auth.currentUser?.uid}/${Date.now()}.${extension}`
+    );
     setUploading(true);
 
     // Starts the upload
@@ -23,7 +26,10 @@ export default function ImageUploader() {
     const task = uploadBytesResumable(fileRef, file);
 
     task.on("state_changed", (snapshot) => {
-      const pct = +((snapshot.bytesTransferred / snapshot.totalBytes) * 100).toFixed(0);
+      const pct = +(
+        (snapshot.bytesTransferred / snapshot.totalBytes) *
+        100
+      ).toFixed(0);
       setProgress(pct);
     });
 
@@ -45,12 +51,18 @@ export default function ImageUploader() {
         <>
           <label className="btn">
             📸 Ajouter une Image
-            <input type="file" onChange={uploadFile} accept="image/x-png,image/gif,image/jpeg" />
+            <input
+              type="file"
+              onChange={uploadFile}
+              accept="image/x-png,image/gif,image/jpeg"
+            />
           </label>
         </>
       )}
-      
-      {downloadURL && <code className="upload-snippet">{`![alt](${downloadURL})`}</code>}
+
+      {downloadURL && (
+        <code className="upload-snippet">{`![alt](${downloadURL})`}</code>
+      )}
     </div>
   );
 }
