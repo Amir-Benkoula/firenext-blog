@@ -8,13 +8,12 @@
 # testing
 /coverage
 
-/.vscode
+#firestore
 /firestore
 
 # next.js
 /.next/
 /out/
-next-env.d.ts
 
 # production
 /build
@@ -27,12 +26,14 @@ next-env.d.ts
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+.pnpm-debug.log*
 
 # local env files
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+.env*.local
 
 # vercel
 .vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
