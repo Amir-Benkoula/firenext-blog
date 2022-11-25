@@ -1,19 +1,16 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { SetStateAction, useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { UserContext } from "../lib/context";
 import { signOut } from "firebase/auth";
 import { auth } from "../lib/firebase";
 import {
   Avatar,
-  Button,
   IconButton,
-  ListItemIcon,
   Menu,
   MenuItem,
   Tooltip,
 } from "@mui/material";
-import { Logout } from "@mui/icons-material";
 
 export default function AppNavbar() {
   const { user, username } = useContext(UserContext);
@@ -112,14 +109,11 @@ export default function AppNavbar() {
                     Profile
                   </MenuItem>
                 </Link>
+                <Link href="/" onClick={signOutNow}>
                 <MenuItem>
-                  <ListItemIcon>
-                    <Logout fontSize="small" />
-                  </ListItemIcon>
-                  <Link href="/" onClick={signOutNow}>
                     Deconnexion
-                  </Link>
                 </MenuItem>
+                </Link>
               </Menu>
             </li>
           </>
