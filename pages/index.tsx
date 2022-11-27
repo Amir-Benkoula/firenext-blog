@@ -12,6 +12,7 @@ import {
   startAfter,
   where,
 } from "firebase/firestore";
+import { Button } from "antd";
 
 // Max post to query per page
 const LIMIT = 5;
@@ -68,19 +69,19 @@ export default function Home(props: any) {
   };
 
   return (
+    <>
     <main>
       <PostFeed posts={posts} />
-
-      {posts.length ? (
-        !loading &&
-        !postsEnd && <button onClick={getMorePosts}>Plus d{"'"}articles</button>
-      ) : (
-        <div>{"Il n'y a pas d'article pour le moment !"}</div>
-      )}
-
-      <Loader show={loading} />
-
-      {postsEnd && "Il n'y a plus d'articles !"}
+        {posts.length ? (
+          !loading &&
+          !postsEnd && <Button loading={loading} className="load-button" onClick={getMorePosts}>Plus d{"'"}articles</Button>
+        ) : (
+          <p className="no-posts">{"Il n'y a pas d'articles pour le moment !"}</p>
+        )}
+        <div className="no-posts">
+          {postsEnd && "Il n'y a plus d'articles!"}
+        </div>
     </main>
+    </>
   );
 }

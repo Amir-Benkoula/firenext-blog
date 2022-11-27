@@ -10,20 +10,46 @@ import {
   setDoc,
   doc,
 } from "firebase/firestore";
-
+import { Button, Form, Input, Modal } from 'antd';
 import { useContext, useState } from "react";
 import { useRouter } from "next/router";
-
 import { useCollection } from "react-firebase-hooks/firestore";
 import kebabCase from "lodash.kebabcase";
 import toast from "react-hot-toast";
+import { PlusCircleOutlined } from "@ant-design/icons";
 
 export default function AdminPostsPage(props: any) {
+  const [open, setOpen] = useState(false);
+
+  const showModal = () => {
+    setOpen(true);
+  };
+
+  const handleOk = (e: React.MouseEvent<HTMLElement>) => {
+    CreateNewPost()
+    setOpen(false);
+  };
+
+  const handleCancel = (e: React.MouseEvent<HTMLElement>) => {
+    console.log(e);
+    setOpen(false);
+  };
+
   return (
     <main>
+      <h1>Articles</h1>
       <AuthCheck>
+        <PlusCircleOutlined style={{fontSize:"1.5em", margin:"0.5em"}} onClick={showModal}/>
         <PostList />
-        <CreateNewPost />
+        <Modal
+        centered
+        title="Nouvel Article"
+        open={open}
+        onCancel={handleCancel}
+        footer={[]}
+        >
+          <CreateNewPost />
+        </Modal>
       </AuthCheck>
     </main>
   );
@@ -41,7 +67,6 @@ function PostList() {
 
   return (
     <>
-      <h1>Gérer vos articles</h1>
       <PostFeed posts={posts} admin />
     </>
   );
@@ -60,7 +85,6 @@ function CreateNewPost() {
 
   // Create a new post in firestore
   const createPost = async (e: any) => {
-    e.preventDefault();
     const uid = auth.currentUser?.uid;
     // const usersRef = collection(firestore, "users");
     // const userDocRef = doc(usersRef, uid);
@@ -91,18 +115,19 @@ function CreateNewPost() {
   };
 
   return (
-    <form onSubmit={createPost}>
-      <input
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        placeholder="Titre de l'article"
-      />
-      <p>
-        <strong>Identifiant de l{"'"}article:</strong> {slug}
-      </p>
-      <button type="submit" disabled={!isValid}>
-        Créer Article
-      </button>
-    </form>
+    <Form style={{marginTop:"2em"}} onFinish={createPost}>
+      <Form.Item>
+        <Input
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          placeholder="Titre de l'article"
+        />
+      </Form.Item>
+      <Form.Item>
+        <Button type="text" htmlType="submit" disabled={!isValid}>
+          Créer
+        </Button>
+      </Form.Item>
+    </Form>
   );
 }

@@ -13,7 +13,7 @@ export default function PostContent({ post }: any) {
       <h1>{post?.title}</h1>
       <span className="text-sm">
         Ecrit par <Link href={`/${post.username}/`}>@{post.username}</Link> le{" "}
-        {createdAt.toISOString()}
+        {createdAt.toLocaleDateString()}
       </span>
       <ReactMarkdown>{post?.content}</ReactMarkdown>
     </div>

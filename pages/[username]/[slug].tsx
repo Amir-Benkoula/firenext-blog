@@ -17,6 +17,7 @@ import Link from "next/link";
 import { useDocumentData } from "react-firebase-hooks/firestore";
 import AuthCheck from "../../components/AuthCheck";
 import LikeButton from "../../components/LikeButton";
+import { EditOutlined } from "@ant-design/icons";
 
 // Incremental Static Regeneration function to show user's data and posts
 export async function getStaticProps({ params }: any) {
@@ -94,32 +95,34 @@ export default function Post(props: any) {
   const { user: currentUser } = useContext(UserContext);
 
   return (
-    <main>
+    <div className="post-box">
+      <aside>
+        <div>
+          <AuthCheck
+            fallback={
+              <Link href="/enter">
+                <LikeButton postRef={postRef} />
+              </Link>
+            }
+          >
+            <LikeButton postRef={postRef} />
+            <div style={{color: "gray", marginLeft: "69%", paddingRight:"8px", marginTop: "5px"}}>
+              {post.heartCount || 0} 
+            </div>
+          </AuthCheck>
+          
+        </div>
+        <div>
+          {currentUser?.uid === post.uid && (
+            <Link href={`/admin/${post.slug}`}>
+              <EditOutlined  style={{ fontSize: '1.5em', color: 'gray', marginTop: 20 }}/>
+            </Link>
+          )}
+        </div>
+      </aside>
       <section>
         <PostContent post={post} />
       </section>
-
-      <aside className="card">
-        <p>
-          <strong>{post.heartCount || 0} 🤍</strong>
-        </p>
-
-        <AuthCheck
-          fallback={
-            <Link href="/enter">
-              <button>💗 Connexion</button>
-            </Link>
-          }
-        >
-          <LikeButton postRef={postRef} />
-        </AuthCheck>
-
-        {currentUser?.uid === post.uid && (
-          <Link href={`/admin/${post.slug}`}>
-            <button>Editer</button>
-          </Link>
-        )}
-      </aside>
-    </main>
+    </div>
   );
 }

@@ -5,20 +5,24 @@ import {
   writeBatch,
   doc,
   getFirestore,
-  collection,
 } from "firebase/firestore";
+import { HeartOutlined, HeartTwoTone } from "@ant-design/icons";
+import { useContext } from "react";
+import { UserContext } from "../lib/context";
 
 // Allows user to heart or like a post
 export default function Heart({ postRef }: any) {
+  const { user }: any = useContext(UserContext);
+  const test = auth.currentUser?.uid || "dummy";
   // Listen to heart document for currently logged in user
-  const heartRef = doc(
-    collection(getFirestore(), "hearts"),
-    auth.currentUser?.uid
-  );
+  const heartRef = doc(getFirestore(), postRef.path, "hearts", test);
   const [heartDoc] = useDocument(heartRef);
 
   // Create a user-to-post relationship
   const addHeart = async () => {
+    if(heartRef.id == "dummy"){
+      return
+    } else {
     const uid = auth.currentUser?.uid;
     const batch = writeBatch(getFirestore());
 
@@ -26,6 +30,7 @@ export default function Heart({ postRef }: any) {
     batch.set(heartRef, { uid });
 
     await batch.commit();
+    }
   };
 
   // Remove a user-to-post relationship
@@ -39,8 +44,8 @@ export default function Heart({ postRef }: any) {
   };
 
   return heartDoc?.exists() ? (
-    <button onClick={removeHeart}>💔</button>
+      <HeartTwoTone style={{ fontSize: '1.5em' }} twoToneColor="#eb2f96" onClick={removeHeart}/>
   ) : (
-    <button onClick={addHeart}>💗</button>
+      <HeartOutlined style={{ fontSize: '1.5em', color: 'gray' }} onClick={addHeart}/>
   );
 }

@@ -57,6 +57,7 @@ export async function getUserWithUsername(username: string) {
     where("username", "==", username),
     limit(1)
   );
+  
   const userDoc = (await getDocs(usersRefQuery)).docs[0];
 
   return userDoc;
