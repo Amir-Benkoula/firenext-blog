@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { auth, storage } from "../lib/firebase";
-import Loader from "./Loader";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { Button, Upload } from "antd";
+import { FileImageOutlined, FileImageTwoTone } from "@ant-design/icons";
 
 // Uploads images to Firebase Storage
 export default function ImageUploader() {
@@ -40,28 +41,30 @@ export default function ImageUploader() {
         setDownloadURL(url);
         setUploading(false);
       });
+     
   };
 
   return (
-    <div className="box">
-      <Loader show={uploading} />
+    <div>
       {uploading && <h3>{progress}%</h3>}
-
+      
       {!uploading && (
-        <>
-          <label className="btn">
-            📸 Ajouter une Image
-            <input
-              type="file"
-              onChange={uploadFile}
-              accept="image/x-png,image/gif,image/jpeg"
-            />
-          </label>
-        </>
+        <div>
+        <label style={{cursor: "pointer"}} htmlFor="file"><FileImageOutlined style={{fontSize: "2em", color: "gray"}}/></label>
+        <input
+          id="file"
+          type="file"
+          onChange={uploadFile}
+          accept="image/x-png,image/gif,image/jpeg"
+          style={{display: "none"}}
+        />
+        </div>
       )}
 
       {downloadURL && (
-        <code className="upload-snippet">{`![alt](${downloadURL})`}</code>
+        <p>
+         <code>{`![alt](${downloadURL})`}</code>
+        </p>
       )}
     </div>
   );

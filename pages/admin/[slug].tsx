@@ -2,6 +2,7 @@ import AuthCheck from "../../components/AuthCheck";
 import { firestore, auth } from "../../lib/firebase";
 import {
   collection,
+  deleteDoc,
   doc,
   serverTimestamp,
   updateDoc,
@@ -14,8 +15,9 @@ import { useDocumentData } from "react-firebase-hooks/firestore";
 import { useForm } from "react-hook-form";
 import ImageUploader from "../../components/ImageUploader";
 import ReactMarkdown from "react-markdown";
-import Link from "next/link";
 import toast from "react-hot-toast";
+import { Button } from 'antd';
+import Link from "next/link";
 
 export default function AdminPostEdit() {
   return (
@@ -37,32 +39,30 @@ function PostManager() {
   const [post] = useDocumentData(postRef);
 
   return (
-    <main>
+    <div className="article-form">
+      <h1>{'"'}{post?.title}{'"'}</h1>
+      <Button style={{margin: "0 1em"}} onClick={() => setPreview(!preview)}>
+          {preview ? "Editer" : "Aperçu"}
+      </Button>
+      <Link href={`/${post?.username}/${post?.slug}`}>
+        <Button style={{margin: "0 1em"}} className="btn-blue">Voir l{"'"}article</Button>
+      </Link>
+      <div className="image-upload">
+        <ImageUploader />
+      </div>
       {post && (
         <>
-          <section>
-            <h1>{post.title}</h1>
-            <p>ID: {post.slug}</p>
-
-            <PostForm
-              postRef={postRef}
-              defaultValues={post}
-              preview={preview}
-            />
-          </section>
-
-          <aside>
-            <h3>Outils</h3>
-            <button onClick={() => setPreview(!preview)}>
-              {preview ? "Fermer l'aperçu" : "Ouvrir l'aperçu"}
-            </button>
-            <Link href={`/${post.username}/${post.slug}`}>
-              <button>Voir la publication</button>
-            </Link>
-          </aside>
+          <PostForm
+            postRef={postRef}
+            defaultValues={post}
+            preview={preview}
+          />
         </>
       )}
-    </main>
+      <div style={{ display: "inline-block", width: "20em", marginBottom: "1em" }}>
+        <DeletePostButton postRef={postRef}/>
+      </div>
+    </div>
   );
 }
 
@@ -71,6 +71,7 @@ function PostForm({ defaultValues, postRef, preview }: any) {
     defaultValues,
     mode: "onChange",
   });
+  
   const { isValid, isDirty } = formState;
 
   const updatePost = async ({ content, published }: any) => {
@@ -88,16 +89,16 @@ function PostForm({ defaultValues, postRef, preview }: any) {
   return (
     <form onSubmit={handleSubmit(updatePost)}>
       {preview && (
-        <div className="card">
+        <div className="card" style={{margin: "1em 17.5%"}}>
           <ReactMarkdown>{watch("content")}</ReactMarkdown>
         </div>
       )}
-
-      <div>
-        <ImageUploader />
-
+      {!preview &&
+        <div style={{ margin:"1em 0"}}>
         <textarea
-          {...register("content", {
+          id="content"
+          {...register("content", 
+          {
             required: {
               value: true,
               message: "Le contenu de l'article est requis",
@@ -111,21 +112,42 @@ function PostForm({ defaultValues, postRef, preview }: any) {
               message: "Le contenu de l'article est trop long",
             },
           })}
-        ></textarea>
+          maxLength={20000}
+        />
+      </div>
+      }
+      <div>
 
-        <div>
-          <input {...register("published")} type="checkbox" />
-          <label>Publier</label>
-        </div>
-
-        {formState.errors.content && (
+      </div>
+      {formState.errors.content && (
           <p className="text-danger">{errorMessage}</p>
         )}
-
-        <button type="submit" disabled={!isDirty || !isValid}>
-          Sauvegarder
-        </button>
+      <div style={{ display: "inline-block", width: "20em", marginBottom: "1em" }}>
+        <input id="published" {...register("published")} type="checkbox" />
+        <label htmlFor="published" style={{marginRight: "1em"}}>Publier</label>
+        <Button htmlType="submit" disabled={!isDirty || !isValid}>
+          Enregistrer
+        </Button>
       </div>
     </form>
+  );
+}
+
+function DeletePostButton({ postRef }: any) {
+  const router = useRouter();
+
+  const deletePost = async () => {
+    const doIt = confirm('Êtes vous sûr de vouloir supprimer cet article?');
+    if (doIt) {
+      await deleteDoc(postRef);
+      router.push('/admin');
+      toast('Article supprimé ', { icon: '🗑️' });
+    }
+  };
+
+  return (
+    <Button danger onClick={deletePost}>
+      Supprimer
+    </Button>
   );
 }

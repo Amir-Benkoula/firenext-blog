@@ -39,11 +39,11 @@ export default function AppNavbar() {
         </li>
         {username && (
           <>
-            <li>
+            {/* <li>
               <Link href="/chat">
                 <button className="articles-button">Chat</button>
               </Link>
-            </li>
+            </li> */}
             <li>
               <Link href="/admin">
                 <button className="articles-button">Articles</button>

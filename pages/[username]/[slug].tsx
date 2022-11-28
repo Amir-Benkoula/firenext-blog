@@ -110,7 +110,6 @@ export default function Post(props: any) {
               {post.heartCount || 0} 
             </div>
           </AuthCheck>
-          
         </div>
         <div>
           {currentUser?.uid === post.uid && (

@@ -1,10 +1,56 @@
+
+:root {
+  --main-fonts: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+  'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+  'Noto Color Emoji'
+}
+
 html,
 body {
   background-color: whitesmoke;
   padding: 0;
   margin: 0;
-  font-family: "Noto Sans", sans-serif;
   margin-top: 50px;
+  font-family: var(--main-fonts);
+}
+
+input, .card p, textarea {
+  font-family: Verdana, var(--main-fonts);
+}
+
+img {
+  width: 100%;
+  border-radius: 4px;
+}
+
+.article-form{
+  text-align: center;
+}
+
+.image-upload {
+  width: 65%;
+  text-align: left;
+  margin-left: 17.5%;
+
+}
+.article-form header p{
+  background-color: white;
+  width: 65%;
+  text-align: center;
+  padding: 1em 1em;
+  border-radius: 2px;
+  border: 1px solid rgba(179, 179, 179, 0.477);
+  margin-left: 17.5%;
+}
+
+.article-form textarea {
+  padding: 2em 2em;
+  height: 30em;
+  width: 65%;
+  resize: none;
+  font-size: 1em;
+  font-weight: 300;
+  border: 1px solid rgba(179, 179, 179, 0.477);
 }
 
 main {
@@ -82,7 +128,7 @@ a {
   border-radius: 4px;
   border: 1px solid rgba(179, 179, 179, 0.477);
 }
-.card  article{
+.card article{
   margin: 0 2em;
 }
 
@@ -164,7 +210,7 @@ a {
 
 .post-box aside{
   width: 15%;
-  margin-top: 5em;
+  margin-top: 2em;
   position: fixed;
   text-align: right;
 }

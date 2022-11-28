@@ -4,7 +4,9 @@ import { useCallback, useContext, useEffect, useState } from "react";
 import { UserContext } from "../lib/context";
 import { doc, getDoc, getFirestore, writeBatch } from "firebase/firestore";
 import debounce from "lodash.debounce";
-import { TextField } from "@mui/material";
+import { Button, Input } from 'antd';
+import { useRouter } from "next/router";
+import { GoogleOutlined } from "@ant-design/icons";
 
 export default function EnterPage({}) {
   const { user, username } = useContext(UserContext);
@@ -34,17 +36,18 @@ function SignInButton() {
   };
 
   return (
-    <button className="btn-google" onClick={signInWithGoogle}>
-      <img src={"/google.png"} alt="" /> Se connecter avec Google
-    </button>
+    <Button icon={<GoogleOutlined />} className="btn-google" onClick={signInWithGoogle}>
+      Se connecter avec Google
+    </Button>
   );
 }
 
 function SignOutButton() {
-  return <button onClick={() => auth.signOut()}>Déconnexion</button>;
+  return <Button onClick={() => auth.signOut()}>Déconnexion</Button>;
 }
 
 function UsernameForm() {
+  const router = useRouter();
   const [formValue, setFormValue] = useState("");
   const [isValid, setIsValid] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -68,6 +71,8 @@ function UsernameForm() {
     batch.set(usernameDoc, { uid: user.uid });
 
     await batch.commit();
+
+    router.push("/");
   };
 
   const onChange = (e: any) => {
@@ -116,16 +121,15 @@ function UsernameForm() {
         <section>
           <h2>Nom d{"'"}utilisateur</h2>
           <form onSubmit={onSubmit}>
-            <TextField
-              id="outlined-basic"
-              variant="outlined"
+            <Input
               name="username"
               value={formValue}
               onChange={onChange}
+              style={{width: "10%", margin: "1em"}}
             />
-            <button type="submit" disabled={!isValid}>
+            <Button htmlType="submit" disabled={!isValid}>
               S{"'"}inscrire
-            </button>
+            </Button>
             <UsernameMessage
               username={formValue}
               isValid={isValid}
