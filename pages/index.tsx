@@ -58,6 +58,7 @@ export default function Home(props: any) {
     setImgLoading(true);
     postData("/api/openJourney", values.prompt)
       .then((res) => {
+        console.log(res)
         setImageUrl(res.imageUrl);
         setImgLoading(false);
         setShowImg(true);
