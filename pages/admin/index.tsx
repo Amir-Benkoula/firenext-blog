@@ -10,7 +10,7 @@ import {
   setDoc,
   doc,
 } from "firebase/firestore";
-import { Button, Form, Input, Modal } from 'antd';
+import { Button, Form, Input, Modal } from "antd";
 import { useContext, useState } from "react";
 import { useRouter } from "next/router";
 import { useCollection } from "react-firebase-hooks/firestore";
@@ -26,7 +26,7 @@ export default function AdminPostsPage(props: any) {
   };
 
   const handleOk = (e: React.MouseEvent<HTMLElement>) => {
-    CreateNewPost()
+    CreateNewPost();
     setOpen(false);
   };
 
@@ -39,14 +39,17 @@ export default function AdminPostsPage(props: any) {
     <main>
       <h1>Articles</h1>
       <AuthCheck>
-        <PlusCircleOutlined style={{fontSize:"1.5em", margin:"0.5em"}} onClick={showModal}/>
+        <PlusCircleOutlined
+          style={{ fontSize: "1.5em", margin: "0.5em" }}
+          onClick={showModal}
+        />
         <PostList />
         <Modal
-        centered
-        title="Nouvel Article"
-        open={open}
-        onCancel={handleCancel}
-        footer={[]}
+          centered
+          title="Nouvel Article"
+          open={open}
+          onCancel={handleCancel}
+          footer={[]}
         >
           <CreateNewPost />
         </Modal>
@@ -115,7 +118,7 @@ function CreateNewPost() {
   };
 
   return (
-    <Form style={{marginTop:"2em"}} onFinish={createPost}>
+    <Form style={{ marginTop: "2em" }} onFinish={createPost}>
       <Form.Item>
         <Input
           value={title}

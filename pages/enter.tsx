@@ -4,7 +4,7 @@ import { useCallback, useContext, useEffect, useState } from "react";
 import { UserContext } from "../lib/context";
 import { doc, getDoc, getFirestore, writeBatch } from "firebase/firestore";
 import debounce from "lodash.debounce";
-import { Button, Input } from 'antd';
+import { Button, Input } from "antd";
 import { useRouter } from "next/router";
 import { GoogleOutlined } from "@ant-design/icons";
 
@@ -36,7 +36,11 @@ function SignInButton() {
   };
 
   return (
-    <Button icon={<GoogleOutlined />} className="btn-google" onClick={signInWithGoogle}>
+    <Button
+      icon={<GoogleOutlined />}
+      className="btn-google"
+      onClick={signInWithGoogle}
+    >
       Se connecter avec Google
     </Button>
   );
@@ -98,7 +102,7 @@ function UsernameForm() {
 
   useEffect(() => {
     checkUsername(formValue);
-  }, [formValue]);
+  });
 
   // Hit the database for username match after each debounced change
   // useCallback is required for debounce to work
@@ -125,7 +129,7 @@ function UsernameForm() {
               name="username"
               value={formValue}
               onChange={onChange}
-              style={{width: "10%", margin: "1em"}}
+              style={{ width: "10%", margin: "1em" }}
             />
             <Button htmlType="submit" disabled={!isValid}>
               S{"'"}inscrire

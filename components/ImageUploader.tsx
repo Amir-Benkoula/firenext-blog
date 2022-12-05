@@ -41,29 +41,30 @@ export default function ImageUploader() {
         setDownloadURL(url);
         setUploading(false);
       });
-     
   };
 
   return (
     <div>
       {uploading && <h3>{progress}%</h3>}
-      
+
       {!uploading && (
         <div>
-        <label style={{cursor: "pointer"}} htmlFor="file"><FileImageOutlined style={{fontSize: "2em", color: "gray"}}/></label>
-        <input
-          id="file"
-          type="file"
-          onChange={uploadFile}
-          accept="image/x-png,image/gif,image/jpeg"
-          style={{display: "none"}}
-        />
+          <label style={{ cursor: "pointer" }} htmlFor="file">
+            <FileImageOutlined style={{ fontSize: "2em", color: "gray" }} />
+          </label>
+          <input
+            id="file"
+            type="file"
+            onChange={uploadFile}
+            accept="image/x-png,image/gif,image/jpeg"
+            style={{ display: "none" }}
+          />
         </div>
       )}
 
       {downloadURL && (
         <p>
-         <code>{`![alt](${downloadURL})`}</code>
+          <code>{`![alt](${downloadURL})`}</code>
         </p>
       )}
     </div>

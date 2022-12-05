@@ -5,7 +5,7 @@ export default function UserProfile({ user }: any) {
     <div className="profile-card">
       <Avatar
         variant="circular"
-        sx={{ width: 100, height: 100, marginRight: 2}}
+        sx={{ width: 100, height: 100, marginRight: 2 }}
         alt="Profile Pic"
         src={user?.photoURL || "/google.png"}
       />

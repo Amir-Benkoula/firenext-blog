@@ -4,13 +4,7 @@ import { useContext, useState } from "react";
 import { UserContext } from "../lib/context";
 import { signOut } from "firebase/auth";
 import { auth } from "../lib/firebase";
-import {
-  Avatar,
-  IconButton,
-  Menu,
-  MenuItem,
-  Tooltip,
-} from "@mui/material";
+import { Avatar, IconButton, Menu, MenuItem, Tooltip } from "@mui/material";
 
 export default function AppNavbar() {
   const { user, username } = useContext(UserContext);
@@ -110,9 +104,7 @@ export default function AppNavbar() {
                   </MenuItem>
                 </Link>
                 <Link href="/" onClick={signOutNow}>
-                <MenuItem>
-                    Deconnexion
-                </MenuItem>
+                  <MenuItem>Deconnexion</MenuItem>
                 </Link>
               </Menu>
             </li>

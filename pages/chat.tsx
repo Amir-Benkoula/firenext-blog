@@ -10,6 +10,7 @@ import {
 import { useState } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { auth, firestore } from "../lib/firebase";
+import Image from "next/image";
 
 export default function ChatPage() {
   return (
@@ -33,13 +34,12 @@ function ChatMessage(props: any) {
   return (
     <>
       <div className={`message ${messageClass}`}>
-        <img src={photoURL} />
+        <Image src={photoURL} alt="Your profile pic" />
         <p>{text}</p>
       </div>
     </>
   );
 }
-
 
 function ChatRoom() {
   const [formValue, setFormValue] = useState("");

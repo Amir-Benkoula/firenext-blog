@@ -11,7 +11,7 @@ import {
   startAfter,
   where,
 } from "firebase/firestore";
-import { Button } from "antd";
+import { Button, Form, Input } from "antd";
 
 // Max post to query per page
 const LIMIT = 5;
@@ -35,6 +35,37 @@ export default function Home(props: any) {
   const [posts, setPosts] = useState(props.posts);
   const [loading, setLoading] = useState(false);
   const [postsEnd, setPostsEnd] = useState(false);
+  const [imgLoading, setImgLoading] = useState(false);
+  const [showImg, setShowImg] = useState(false);
+  const [imageUrl, setImageUrl] = useState("");
+
+  // const toolTipText = `Ce site utilise une surcouche du model de génération d'image par texte de
+  // Stable Diffusion nommée Openjourney
+  // `
+
+  async function postData(url: string, data: string) {
+    const response = await fetch(url, {
+      method: "POST",
+      mode: "cors",
+      body: data,
+    });
+
+    return response.json();
+  }
+
+  // Generate Image using prompthero/openjourney Text To Image AI
+  const onFinish = async (values: any) => {
+    setImgLoading(true);
+    postData("/api/openJourney", values.prompt).then((res) => {
+      setImageUrl(res.imageUrl);
+      setImgLoading(false);
+      setShowImg(true);
+    });
+  };
+
+  const onFinishFailed = (errorInfo: any) => {
+    setImgLoading(false);
+  };
 
   // Get next page in pagination query
   const getMorePosts = async () => {
@@ -68,18 +99,70 @@ export default function Home(props: any) {
 
   return (
     <>
-    <main>
-      <PostFeed posts={posts} />
+      <main>
+        <div>
+          <h1 style={{ textAlign: "center" }}>
+            {"Générer une image grâce à l'IA"}
+          </h1>
+          <Form
+            name="basic"
+            initialValues={{ remember: true }}
+            onFinish={onFinish}
+            onFinishFailed={onFinishFailed}
+          >
+            <Form.Item
+              className="center"
+              style={{ width: "70%" }}
+              name="prompt"
+              rules={[
+                { required: true, message: "Veuillez entrer une phrase" },
+              ]}
+            >
+              <Input />
+              {/* <Tooltip placement="right" title={toolTipText} color="gray">
+            <QuestionCircleOutlined style={{marginTop: "0.3em", marginLeft:"0.5em",position: "absolute", color:"gray", fontSize: "1.5em"}}/>
+          </Tooltip> */}
+            </Form.Item>
+            <Form.Item>
+              <Button
+                className="center"
+                type="primary"
+                htmlType="submit"
+                loading={imgLoading}
+              >
+                Créer
+              </Button>
+            </Form.Item>
+          </Form>
+          {showImg && (
+            <img
+              className="center"
+              src={imageUrl}
+              alt={"Ai Image generated with prompthero/openjourney model"}
+            />
+          )}
+        </div>
+        <PostFeed posts={posts} />
         {posts.length ? (
           !loading &&
-          !postsEnd && <Button loading={loading} className="load-button" onClick={getMorePosts}>Plus d{"'"}articles</Button>
+          !postsEnd && (
+            <Button
+              loading={loading}
+              className="load-button"
+              onClick={getMorePosts}
+            >
+              Plus d{"'"}articles
+            </Button>
+          )
         ) : (
-          <p className="no-posts">{"Il n'y a pas d'articles pour le moment !"}</p>
+          <p className="no-posts">
+            {"Il n'y a pas d'articles pour le moment !"}
+          </p>
         )}
         <div className="no-posts">
           {postsEnd && "Il n'y a plus d'articles!"}
         </div>
-    </main>
+      </main>
     </>
   );
 }

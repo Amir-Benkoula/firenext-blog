@@ -106,15 +106,24 @@ export default function Post(props: any) {
             }
           >
             <LikeButton postRef={postRef} />
-            <div style={{color: "gray", marginLeft: "69%", paddingRight:"8px", marginTop: "5px"}}>
-              {post.heartCount || 0} 
+            <div
+              style={{
+                color: "gray",
+                marginLeft: "69%",
+                paddingRight: "8px",
+                marginTop: "5px",
+              }}
+            >
+              {post.heartCount || 0}
             </div>
           </AuthCheck>
         </div>
         <div>
           {currentUser?.uid === post.uid && (
             <Link href={`/admin/${post.slug}`}>
-              <EditOutlined  style={{ fontSize: '1.5em', color: 'gray', marginTop: 20 }}/>
+              <EditOutlined
+                style={{ fontSize: "1.5em", color: "gray", marginTop: 20 }}
+              />
             </Link>
           )}
         </div>

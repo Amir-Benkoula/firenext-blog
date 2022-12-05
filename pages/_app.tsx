@@ -16,8 +16,9 @@ export default function App({ Component, pageProps }: AppProps) {
   const userData = useUserData();
 
   useEffect(() => {
-    const handleStart = (url: any) => (url !== router.asPath) && setOpen(true);
-    const handleComplete = (url: any) => (url !== router.asPath) && setOpen(false);
+    const handleStart = (url: any) => url !== router.asPath && setOpen(true);
+    const handleComplete = (url: any) =>
+      url !== router.asPath && setOpen(false);
 
     router.events.on("routeChangeStart", handleStart);
     router.events.on("routeChangeComplete", handleComplete);
@@ -25,17 +26,19 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     <>
-      <Metatags/>
+      <Metatags />
       <UserContext.Provider value={userData}>
-        <AppNavbar /> 
-        {!open ? <Component {...pageProps} />
-        :
-        <Backdrop
-        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={open}
-        >
-          <CircularProgress color="inherit" />
-        </Backdrop>}
+        <AppNavbar />
+        {!open ? (
+          <Component {...pageProps} />
+        ) : (
+          <Backdrop
+            sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+            open={open}
+          >
+            <CircularProgress color="inherit" />
+          </Backdrop>
+        )}
         <Toaster />
         <Analytics />
       </UserContext.Provider>
