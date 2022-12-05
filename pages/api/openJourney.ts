@@ -12,12 +12,13 @@ export default async function handler(
   await axios
     .post(
       "https://stable-diffusion-nodejs-api-production.up.railway.app/text-to-image",
-      { prompt: req.body }
+      { prompt: req.body },
+      { timeout: 12 * 1000 }
     )
     .then((response) => {
       res.status(200).json({ imageUrl: response.data });
     })
-    .catch(() => {
-      res.errored;
+    .catch((err) => {
+      console.error(err);
     });
 }
