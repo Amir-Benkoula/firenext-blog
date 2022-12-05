@@ -56,11 +56,15 @@ export default function Home(props: any) {
   // Generate Image using prompthero/openjourney Text To Image AI
   const onFinish = async (values: any) => {
     setImgLoading(true);
-    postData("/api/openJourney", values.prompt).then((res) => {
-      setImageUrl(res.imageUrl);
-      setImgLoading(false);
-      setShowImg(true);
-    });
+    postData("/api/openJourney", values.prompt)
+      .then((res) => {
+        setImageUrl(res.imageUrl);
+        setImgLoading(false);
+        setShowImg(true);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   };
 
   const onFinishFailed = (errorInfo: any) => {
